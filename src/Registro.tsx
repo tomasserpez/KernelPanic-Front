@@ -2,14 +2,18 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 
-export default function Login() {
-    const { logIn } = useAuth();
+export default function Registro() {
+    const { signUp } = useAuth();
     const navigate = useNavigate();
 
-    function handleLoginSubmit(e: any) {
+    function handleRegistroSubmit(e: any) {
         e.preventDefault();
 
-        logIn(emailValue, passValue)
+        if(passRepeatValue !== passValue){
+            alert("Las contraseñas no coinciden!")
+            return;
+        }
+        signUp(emailValue, passValue)
             .then((userCredential) => {
                 alert(
                     `Estas logueado con el usuario ${userCredential.user.email}`
@@ -23,6 +27,7 @@ export default function Login() {
 
     const [emailValue, setEmailValue] = useState("");
     const [passValue, setPassValue] = useState("");
+    const [passRepeatValue, setPassRepeatValue] = useState("");
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
@@ -36,7 +41,7 @@ export default function Login() {
                         </h1>
                         <form
                             className="space-y-4 md:space-y-6"
-                            onSubmit={handleLoginSubmit}
+                            onSubmit={handleRegistroSubmit}
                         >
                             <div>
                                 <label
@@ -84,18 +89,35 @@ export default function Login() {
                                     required
                                 />
                             </div>
+                            <div>
+                                <label
+                                    htmlFor="passwordRepeat"
+                                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-lime-600 font-Revalia"
+                                >
+                                    Repetir contraseña:{" "}
+                                    <span className="text-amber-600">
+                                        &lt;repetir contraseña&gt;
+                                    </span>
+                                </label>
+                                <input
+                                    value={passRepeatValue}
+                                    onChange={(e) =>
+                                        setPassRepeatValue(e.target.value)
+                                    }
+                                    type="password"
+                                    name="passwordRepeat"
+                                    id="passwordRepeat"
+                                    placeholder="••••••••"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 font-Revalia"
+                                    required
+                                />
+                            </div>
                             <div className="flex flex-col">
                                 <Link
-                                    to="#"
-                                    className="text-sm ps-1 font-medium text-primary-600 hover:underline dark:text-gray-200 font-Revalia"
-                                >
-                                    Olvidé mi contraseña
-                                </Link>
-                                <Link
-                                    to="/registro"
+                                    to="/login"
                                     className="text-sm p-1 pt-2 font-medium text-primary-600 hover:underline dark:text-gray-200 font-Revalia"
                                 >
-                                    Registrarse
+                                    Volver a Login
                                 </Link>
                             </div>
                             <div className="flex justify-center">
@@ -103,7 +125,7 @@ export default function Login() {
                                     type="submit"
                                     className="w-auto text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 font-Revalia"
                                 >
-                                    Ingresar
+                                    Registrarse
                                 </button>
                             </div>
                         </form>

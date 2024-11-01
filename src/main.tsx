@@ -4,11 +4,13 @@ import './index.css'
 import App from './App.tsx'
 import AuthProvider from './contexts/AuthContext.tsx'
 import Login from './Login.tsx'
+import Registro from './Registro.tsx'
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom"
+
 
 
 const router = createBrowserRouter([
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login></Login>
+  },
+  {
+    path:"/registro",
+    element: <Registro></Registro>
   }
 ]);
 
