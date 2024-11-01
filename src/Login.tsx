@@ -29,8 +29,11 @@ export default function Login() {
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <img src="./assets/img/logoSpaceTraders.png" alt="logo" />
-                        <p className="font-Revalia text-purple-600 text-3xl text-center">SPACE TRADERS</p>
+                        <div className="flex flex-row items-center space-between">
+                            <img src="./src/assets/img/logoSpaceTraders.png" alt="logo" className="w-12 me-3"/>
+                            <p className="font-Revalia text-purple-600 text-3xl text-center">SPACE TRADERS</p>
+                        </div>
+                        
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-purple-600 font-Revalia text-center">
                             Welcome
                         </h1>
