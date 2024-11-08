@@ -5,6 +5,7 @@ import App from './App.tsx'
 import AuthProvider from './contexts/AuthContext.tsx'
 import Login from './Login.tsx'
 import Registro from './Registro.tsx'
+import Home from './Home.tsx'
 
 import {
   createBrowserRouter,
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App></App>
+  },
+  {
+    path: "/home",
+    element: <Home></Home>
   },
   {
     path: "/login",
