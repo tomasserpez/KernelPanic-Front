@@ -14,7 +14,7 @@ export default function Login() {
                 alert(
                     `Estas logueado con el usuario ${userCredential.user.email}`
                 );
-                navigate("/");
+                navigate("/home");
             })
             .catch((error) => {
                 alert(`Error! ${error.code} - ${error.message}`);

@@ -1,11 +1,16 @@
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 
 export default function Home() {
     const { signOut } = useAuth();
+    const navigate = useNavigate();
 
     function cerrarSesionHandler() {
         signOut()
-            .then(() => alert("Sesión Cerrada!"))
+            .then(() => {
+                alert("Sesión Cerrada!");
+                navigate("/");
+            })
             .catch((e) => {
                 alert(`Se produjo un error ${e.code} - ${e.message}`);
             });

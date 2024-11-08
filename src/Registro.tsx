@@ -18,7 +18,7 @@ export default function Registro() {
                 alert(
                     `Estas logueado con el usuario ${userCredential.user.email}`
                 );
-                navigate("/");
+                navigate("/home");
             })
             .catch((error) => {
                 alert(`Error! ${error.code} - ${error.message}`);
