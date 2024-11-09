@@ -7,7 +7,72 @@ function App() {
 
     return (
         <>
-            <div className="bg-gray-50 dark:bg-gray-900 h-screen flex items-start">
+            <div className="h-screen flex flex-col justify-center items-center relative">
+                <div className="h-3/4 flex items-center justify-around">
+                    <div className="flex flex-col items-center w-2/5 h-3/4">
+                        <p className="text-4xl text-white font-Revalia">
+                            Space Traders
+                            <span className="text-5xl text-center block font-Revalia">Game</span>
+                        </p>
+                        <img
+                            src="./src/assets/img/logoSpaceTraders.png"
+                            alt="logo"
+                            className="h-3/6"
+                        />
+                    </div>
+
+                    <div className="flex flex-col w-2/5 h-3/4 rounded border border-purple-700 border-4 p-8 justify-between items-center">
+                        <div className="flex flex-col">
+                            <h2 className="font-bold text-2xl mb-2 font-Revalia text-lime-700">
+                                ¡ Bienvenido viajero !
+                            </h2>
+
+                            <p className="text-white text-xl font-Revalia">
+                                La aventura te espera, explora cada esquina de la
+                                galaxia inexploradas, completa misiones yextrae
+                                minerales para mejorar tu nave
+                            </p>
+                        </div>
+
+                        <button
+                            className="rounded border border-lime-700 border-4 text-white font-Revalia hover:border-lime-800 hover:text-gray-200 rounded-lg text-center px-2 py-4"
+                        >
+                            {getUser() == null ? (
+                            <Link
+                                to={"/login"}
+                                className="text-xl"
+                            >
+                                Ir al login
+                            </Link>
+                        ) : (
+                            <Link
+                                to={"/home"}
+                                className="text-xl"
+                            >
+                                Ir al login
+                            </Link>                                          
+                        )}
+                        </button>
+                    </div>
+                </div>
+
+                <div className="h-screen w-screen absolute top-0 bottom-0 -z-10">
+                    <img
+                        src="./src/assets/img/landingPage2.png"
+                        alt="background"
+                        className="h-full w-full"
+                    />
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            {/* <div className="bg-gray-50 dark:bg-gray-900 h-screen flex items-start">
                 <div>
                     <p>
                         Space Traders<span>Game</span>
@@ -40,7 +105,7 @@ function App() {
                         )}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 }

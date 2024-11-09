@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
+import { Link } from "react-router-dom";
 import homeIcon from "./assets/svg/homeIcon.svg";
 import profileIcon from "./assets/svg/profileIcon.svg";
 import baseIcon from "./assets/svg/baseIcon.svg";
@@ -8,21 +7,7 @@ import marketIcon from "./assets/svg/marketIcon.svg";
 import missionIcon from "./assets/svg/missionIcon.svg";
 import inventoryIcon from "./assets/svg/inventoryIcon.svg";
 
-export default function Home() {
-    const { signOut } = useAuth();
-    const navigate = useNavigate();
-
-    function cerrarSesionHandler() {
-        signOut()
-            .then(() => {
-                alert("Sesión Cerrada!");
-                navigate("/");
-            })
-            .catch((e) => {
-                alert(`Se produjo un error ${e.code} - ${e.message}`);
-            });
-    }
-
+export default function Ship() {
     return (
         <>
             <div className="h-screen flex flex-col justify-center items-center relative">
@@ -53,25 +38,18 @@ export default function Home() {
                                 yextrae minerales para mejorar tu nave
                             </p>
                         </div>
-
-                        <button
-                            onClick={cerrarSesionHandler}
-                            className="rounded border-lime-700 border-4 text-white font-Revalia hover:border-lime-800 hover:text-gray-200 text-center px-2 py-4"
-                        >
-                            Cerrar Sesión
-                        </button>
                     </div>
                 </div>
 
                 <nav className="w-5/6">
                     <ul className="flex justify-around">
-                        <li className="text-white rounded hover:cursor-pointer bg-purple-700 p-2 outline outline-purple-700 outline-4" title="Inicio">
+                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Inicio">
                             <Link to="/home">
                                 <img src={homeIcon} alt="Icono de inicio"></img>
                             </Link>
                         </li>
 
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="perfil">
+                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Perfil">
                             <Link to="/profile">
                                 <img
                                     src={profileIcon}
@@ -86,11 +64,12 @@ export default function Home() {
                             </Link>
                         </li>
 
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Nave">
+                        <li className="text-white rounded hover:cursor-pointer bg-purple-700 p-2 outline outline-purple-700 outline-4" title="Nave">
                             <Link to="/ship">
                                 <img src={shipIcon} alt="Icono de nave"></img>
                             </Link>
-                        </li>                        
+                        </li>
+
 
                         <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Inventario">
                             <Link to="/inventory">
@@ -123,7 +102,7 @@ export default function Home() {
 
                 <div className="h-screen w-screen absolute top-0 bottom-0 -z-10">
                     <img
-                        src="./src/assets/img/landingPage2.png"
+                        src="./src/assets/img/landingPage3.png"
                         alt="background"
                         className="h-full w-full"
                     />
