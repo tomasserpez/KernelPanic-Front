@@ -17,6 +17,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom"
+import BackendAPIProvider from './contexts/BackendAPIContext.tsx'
 
 
 
@@ -66,7 +67,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-    <RouterProvider router={router}></RouterProvider>
+    <BackendAPIProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </BackendAPIProvider>
     </AuthProvider>
   </StrictMode>,
 )

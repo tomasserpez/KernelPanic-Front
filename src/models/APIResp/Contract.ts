@@ -1,10 +1,10 @@
 export interface Contract{
     factionSymbol : string,
 	type : string,
-	terms : string,
-	accepted : Terms,
+	terms : Terms,
+	accepted : boolean,
 	fulfilled : boolean,
-	expiration : boolean,
+	expiration : string,
 	deadlineToAccept : string
 }
 

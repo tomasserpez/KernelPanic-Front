@@ -7,10 +7,33 @@ import shipIcon from "./assets/svg/shipIcon.svg";
 import marketIcon from "./assets/svg/marketIcon.svg";
 import missionIcon from "./assets/svg/missionIcon.svg";
 import inventoryIcon from "./assets/svg/inventoryIcon.svg";
+import { useBackendAPI } from "./contexts/BackendAPIContext";
 
 export default function Home() {
     const { signOut } = useAuth();
     const navigate = useNavigate();
+
+    const {registerAgent, currentAgent, updateCurrentAgent} = useBackendAPI();
+
+    function registrarNuevoAgente(){
+        let nombreAgente = prompt("Ingrese nombre del agente");
+        let faccionAgente = prompt("Ingrese facción del agente","cosmic");
+
+        if(nombreAgente==null || faccionAgente==null){
+            alert("Los campos no pueden estar vacios!");
+            return;
+        }
+
+        registerAgent(nombreAgente,faccionAgente).then(
+            respData => {
+                alert(`Registrado el agente ${respData.agent.symbol}`)
+                updateCurrentAgent(respData.agent);
+            }
+        ).catch(
+            err=>alert(err)
+        )
+
+    }
 
     function cerrarSesionHandler() {
         signOut()
@@ -53,6 +76,12 @@ export default function Home() {
                                 yextrae minerales para mejorar tu nave
                             </p>
                         </div>
+                        <button
+                        onClick={registrarNuevoAgente}
+                        className="rounded border-lime-700 border-4 text-white font-Revalia hover:border-lime-800 hover:text-gray-200 text-center px-2 py-4">
+                            Nuevo Agente
+                        </button>
+                        
 
                         <button
                             onClick={cerrarSesionHandler}

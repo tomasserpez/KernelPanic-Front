@@ -4,8 +4,10 @@ import { RegisterData } from "../models/APIResp/RegisterData";
 import { Contract } from "../models/APIResp/Contract";
 
 interface BackendAPIContextType {
+    currentAgent : Agent,
+    updateCurrentAgent : (agent : Agent) => void
     getAgents : ()=>Promise<Agent[]>,
-    registerAgent : () => Promise<RegisterData>,
+    registerAgent : (name: string, faction: string) => Promise<RegisterData>,
     getContracts : () => Promise<Contract[]>
 }
 const BackendAPIContext = createContext({} as BackendAPIContextType);
@@ -18,6 +20,7 @@ export function BackendAPIProvider({ children } : { children : any }) {
 
   const [serverPort, setServerPort] = useState("8080");
   const [serverBaseURL, setServerBaseURL] = useState("http://localhost:");
+  const [currentAgent, setCurrentAgent] = useState({} as Agent);
 
   const backendEndpoints = {
     getAgents: "/agents",
@@ -29,29 +32,40 @@ export function BackendAPIProvider({ children } : { children : any }) {
 
   }
 
+  function updateCurrentAgent(newAgent : Agent){
+    setCurrentAgent(newAgent);
+  }
+
   async function getAgents() : Promise<Agent[]>{
     const res = await fetch(`${serverBaseURL}${serverPort}${backendEndpoints.getAgents}`);
     const agents = await res.json() as Agent[];
     return agents;
   }
 
-  async function registerAgent() : Promise<RegisterData> {
-    const res = await fetch(`${serverBaseURL}${serverPort}${backendEndpoints.postRegisterAgent}`);
+  async function registerAgent(name:string,faction:string) : Promise<RegisterData> {
+    const res = await fetch(`${serverBaseURL}${serverPort}${backendEndpoints.postRegisterAgent}`, 
+                    {   
+                        method: "POST",
+                        body: JSON.stringify({username:name, faction: faction})
+                    } );
     const agent = await res.json() as RegisterData;
     return agent;
   }
 
   async function getContracts() : Promise<Contract[]>{
-    const res = await fetch(`${serverBaseURL}${serverPort}${backendEndpoints.getContracts}`);
+    const parsedEndpoint = backendEndpoints.getContracts.replace(":agentName", currentAgent.symbol);
+    const res = await fetch(`${serverBaseURL}${serverPort}${parsedEndpoint}`);
     const contracts = await res.json() as Contract[];
     return contracts;
   }
     
 
   const value = {
+    currentAgent,
     getAgents,
     registerAgent,
-    getContracts
+    getContracts,
+    updateCurrentAgent
   }
 
   return (
