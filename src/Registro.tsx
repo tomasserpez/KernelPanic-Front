@@ -33,11 +33,7 @@ export default function Registro() {
         <section className="relative">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full md:mt-0 sm:max-w-md xl:p-0 ">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <div className="flex flex-row items-center space-between">
-                            <img src="./src/assets/img/logoSpaceTraders.png" alt="logo" className="w-12 me-3"/>
-                            <p className="font-Revalia text-purple-600 text-3xl text-center">SPACE TRADERS</p>
-                        </div>
+                    <div className="mt-3 p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-purple-600 font-Revalia text-center">
                             Crear cuenta
                         </h1>
