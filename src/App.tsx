@@ -72,7 +72,7 @@ function App() {
             
             
             
-            {/* <div className="bg-gray-50 dark:bg-gray-900 h-screen flex items-start">
+            {/* <div className="bg-gray-900 h-screen flex items-start">
                 <div>
                     <p>
                         Space Traders<span>Game</span>
@@ -91,14 +91,14 @@ function App() {
                         {getUser() == null ? (
                             <Link
                                 to={"/login"}
-                                className="text-xl font-medium text-primary-600 hover:underline dark:text-gray-200"
+                                className="text-xl font-medium hover:underline text-gray-200"
                             >
                                 Ir al login
                             </Link>
                         ) : (
                             <Link
                                 to={"/home"}
-                                className="text-xl font-medium text-primary-600 hover:underline dark:text-gray-200"
+                                className="text-xl font-medium hover:underline text-gray-200"
                             >
                                 Ir al login
                             </Link>                                          
