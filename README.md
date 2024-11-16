@@ -1,50 +1,74 @@
-# React + TypeScript + Vite
+# SpaceTraders Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este es el frontend de nuestra aplicación de proyecto, https://github.com/tomasserpez/KernelPanic-Back <- Link del backend
 
-Currently, two official plugins are available:
+## Requisitos
+- Node v22^
+- Typescript
+- Vite
+- Firebase
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Instalacion
 
-## Expanding the ESLint configuration
+1. Clona el repositorio:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Usando SSH
+```bash
+git clone git@github.com:tomasserpez/KernelPanic-Front.git
+cd KernelPanic-Front
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Usando HTTPS
+```bash
+git clone https://github.com/tomasserpez/KernelPanic-Front.git
+cd KernelPanic-Front
 ```
+
+2. Configuración de Firebase:
+
+  - Dentro de la carpeta `src`, crea una nueva carpeta llamada `env`.
+  - En la consola de Firebase, obtén la configuración del proyecto para la parte de autenticació
+  - Crear un archivo en el directorio nuevo llamado `firebaseconfig.ts` y pega el contenido de configuración de firebase.
+  Seguramente se vea algo así:
+  ```typescript
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "tu apikey",
+  authDomain: "tu authDomain",
+  projectId: "tu projectId",
+  storageBucket: "tu storageBucket",
+  messagingSenderId: "tu messagingSenderId",
+  appId: "tu app id"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+```
+
+Para que nos funcione, tenemos que modificar la linea `const firebaseConfig` y agregarle un `export` delante de este, por lo que quedará `export const firebaseConfig`
+
+3. Instalación de dependencias:
+```bash
+npm install
+```
+Esto se ejecuta dentro del directorio raiz del proyecto clonado.
+
+4. Ejecutar la aplicación en modo desarrollador:
+```bash
+npm run dev
+```
+
+Esto iniciará el servidor de vite en modo desarrollador configurado con el puerto por defecto (5173).
+
+## Uso
+Accedemos a la aplicación desde el navegador en la dirección `http://localhost:5173`.
+
+---
+
+Muchas gracias por utilizar nuestro software.
+
