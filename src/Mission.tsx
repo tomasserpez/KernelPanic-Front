@@ -17,7 +17,7 @@ function ContratoItem({contract} : { contract : Contract}) {
         <p className="text-white text-xl font-Revalia">Fecha límite aceptación: {contract.deadlineToAccept}</p>
         <div>
         <p className="text-white text-xl font-Revalia">Carga:</p>
-            {contract.terms.deliver.map((cargo,index) => <div key={crypto.randomUUID as unknown as string}>
+            {contract.terms.deliver.map((cargo,index) => <div key={crypto.randomUUID() as unknown as string}>
                                                     <p className="text-white text-xl font-Revalia">Trade Symb: {cargo.tradeSymbol}</p>
                                                 <ul>
                                                     <li className="text-white text-xl font-Revalia">Destino: {cargo.destinationSymbol}</li>

@@ -8,12 +8,29 @@ import marketIcon from "./assets/svg/marketIcon.svg";
 import missionIcon from "./assets/svg/missionIcon.svg";
 import inventoryIcon from "./assets/svg/inventoryIcon.svg";
 import { useBackendAPI } from "./contexts/BackendAPIContext";
+import { useEffect, useState } from "react";
+import { Agent } from "./models/APIResp/Agent";
 
 export default function Home() {
     const { signOut } = useAuth();
     const navigate = useNavigate();
+    const [agents, setAgents] = useState([] as Agent[])
+    const {registerAgent, currentAgent, updateCurrentAgent, getAgents} = useBackendAPI();
 
-    const {registerAgent, currentAgent, updateCurrentAgent} = useBackendAPI();
+    useEffect(
+        ()=>{
+            getAgents().then(
+                agents => setAgents(agents)
+            ).catch(
+                error => console.error(error)
+            )
+        }
+        ,[currentAgent])
+
+    function changeAgent(agent: Agent){
+        updateCurrentAgent(agent);
+        alert("Seleccionado el agente " + agent.symbol + " !")
+    }
 
     function registrarNuevoAgente(){
         let nombreAgente = prompt("Ingrese nombre del agente");
@@ -49,20 +66,8 @@ export default function Home() {
     return (
         <>
             <div className="h-screen flex flex-col justify-center items-center relative">
-                <div className="h-3/4 flex items-center justify-around">
-                    <div className="flex flex-col items-center w-2/5 h-3/4">
-                        <p className="text-4xl text-white font-Revalia">
-                            Space Traders
-                            <span className="text-5xl text-center block font-Revalia">
-                                Game
-                            </span>
-                        </p>
-                        <img
-                            src="./src/assets/img/logoSpaceTraders.png"
-                            alt="logo"
-                            className="h-3/6"
-                        />
-                    </div>
+                <div className="h-3/4 flex flex-row items-center ms-24">
+
 
                     <div className="flex flex-col w-2/5 h-3/4 rounded border-purple-700 border-4 p-8 justify-between items-center">
                         <div className="flex flex-col">
@@ -73,7 +78,7 @@ export default function Home() {
                             <p className="text-white text-xl font-Revalia">
                                 La aventura te espera, explora cada esquina de
                                 la galaxia inexploradas, completa misiones
-                                yextrae minerales para mejorar tu nave
+                                y extrae minerales para mejorar tu nave
                             </p>
                         </div>
                         <button
@@ -89,6 +94,22 @@ export default function Home() {
                         >
                             Cerrar Sesión
                         </button>
+                    </div>
+                    <div className="h-3/4 ms-5 mt-3">
+                        <h3 className="font-bold text-2xl mb-2 font-Revalia text-lime-700">Agentes:</h3>
+                        <div className="grid grid-cols-4 grid- gap-2">
+                            {agents?.map(
+                                (agent)=>{
+                                    return <button 
+                                            key={crypto.randomUUID() as unknown as string} 
+                                            onClick={()=>changeAgent(agent)} 
+                                            className="text-lime-300 h-11 rounded-md border border-lime-600 text-center p-1"
+                                            >
+                                                {agent.symbol}
+                                            </button>
+                                }
+                            )}
+                        </div>
                     </div>
                 </div>
 
