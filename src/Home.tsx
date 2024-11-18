@@ -12,20 +12,20 @@ import { useEffect, useState } from "react";
 import { Agent } from "./models/APIResp/Agent";
 
 export default function Home() {
-    const { signOut } = useAuth();
+    const { signOut, currentUser } = useAuth();
     const navigate = useNavigate();
     const [agents, setAgents] = useState([] as Agent[])
-    const {registerAgent, currentAgent, updateCurrentAgent, getAgents} = useBackendAPI();
+    const {registerAgent, currentAgent, updateCurrentAgent, getAgentsForUser} = useBackendAPI();
 
     useEffect(
         ()=>{
-            getAgents().then(
+            getAgentsForUser(currentUser?.uid).then(
                 agents => setAgents(agents)
             ).catch(
                 error => console.error(error)
             )
         }
-        ,[currentAgent])
+        ,[currentAgent, currentUser])
 
     function changeAgent(agent: Agent){
         updateCurrentAgent(agent);
@@ -33,6 +33,12 @@ export default function Home() {
     }
 
     function registrarNuevoAgente(){
+
+        if(!currentUser){
+            alert("Ningún usuario logeado!");
+            return;
+        }
+
         let nombreAgente = prompt("Ingrese nombre del agente");
         let faccionAgente = prompt("Ingrese facción del agente","cosmic");
 
@@ -41,7 +47,7 @@ export default function Home() {
             return;
         }
 
-        registerAgent(nombreAgente,faccionAgente).then(
+        registerAgent(nombreAgente,faccionAgente,currentUser.uid).then(
             respData => {
                 alert(`Registrado el agente ${respData.agent.symbol}`)
                 updateCurrentAgent(respData.agent);
