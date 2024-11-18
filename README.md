@@ -50,7 +50,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 ```
 
-Para que nos funcione, tenemos que modificar la linea `const firebaseConfig` y agregarle un `export` delante de este, por lo que quedará `export const firebaseConfig`
+Solo nos interesa el objeto `firebaseConfig`. Para que nos funcione lo copiamos a nuestro nuevo archivo y modificamos la linea `const firebaseConfig` para agregarle un `export` delante, por lo que quedará `export const firebaseConfig`, de esta manera:
+ ```typescript
+export const firebaseConfig = {
+  apiKey: "tu apikey",
+  authDomain: "tu authDomain",
+  projectId: "tu projectId",
+  storageBucket: "tu storageBucket",
+  messagingSenderId: "tu messagingSenderId",
+  appId: "tu app id"
+};
+
+```
 
 3. Instalación de dependencias:
 ```bash
