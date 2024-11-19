@@ -10,7 +10,8 @@ interface BackendAPIContextType {
     getAgentsForUser : (uid:string)=>Promise<Agent[]>,
     registerAgent : (name: string, faction: string, uid:string) => Promise<RegisterData>,
     getContracts : () => Promise<Contract[]>,
-    flushCurrentAgent : ()=>void
+    flushCurrentAgent : ()=>void,
+    acceptContract: (contract : Contract) => Promise<Contract>
 }
 const BackendAPIContext = createContext({} as BackendAPIContextType);
 
@@ -32,7 +33,7 @@ export function BackendAPIProvider({ children } : { children : any }) {
     getAgentByToken: (token:string)=>"/agents/token/:token".replace(":token",token),
     getContracts: (agentName :string)=>"/:agentName/contracts".replace(":agentName",agentName),
     postAcceptContract: (agentName :string, contractId:string) => 
-                        ":agentName/contracts/:contractId/accept"
+                        "/:agentName/contracts/:contractId/accept"
                         .replace(":agentName",agentName)
                         .replace(":contractId", contractId)
 
@@ -81,6 +82,19 @@ export function BackendAPIProvider({ children } : { children : any }) {
     const contracts = await res.json() as Contract[];
     return contracts;
   }
+
+  async function acceptContract(contract : Contract) : Promise<Contract> {
+    if(!currentAgent.symbol || !contract?.id){
+      return {} as Contract;
+    }
+    const res = await fetch(
+      `${serverBaseURL}${serverPort}${backendEndpoints.postAcceptContract(currentAgent.symbol,contract.id)}`,
+      {
+        method: "POST"
+      });
+    const contractRes = await res.json() as {agent: Agent, contract: Contract};
+    return contractRes.contract;
+  }
     
 
   const value = {
@@ -90,7 +104,8 @@ export function BackendAPIProvider({ children } : { children : any }) {
     getContracts,
     updateCurrentAgent,
     getAgentsForUser,
-    flushCurrentAgent
+    flushCurrentAgent,
+    acceptContract
   }
 
   return (

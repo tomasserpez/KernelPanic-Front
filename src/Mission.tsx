@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 
 
 function ContratoItem({contract, onAccept} : { contract : Contract, onAccept:any}) {
+    function acceptHandler(e:any){
+        e.stopPropagation();
+        onAccept();
+    }
+
     return <div className="flex flex-col rounded border-purple-700 border bg-black p-2 max-w-fit">
         <p className="text-white text-base font-Revalia">ID: {contract.id}</p>
         <p className="text-white text-base font-Revalia">Faccion: {contract.factionSymbol}</p>
@@ -24,10 +29,17 @@ function ContratoItem({contract, onAccept} : { contract : Contract, onAccept:any
         <p className="text-white text-base font-Revalia">Tipo: {contract.type}</p>
         <p className="text-white text-base font-Revalia">Aceptado: {contract.accepted?"SÍ":"NO"}</p>
         <p className="text-white text-base font-Revalia">Completado: {contract.fulfilled?"SÍ":"NO"}</p>
+        { !contract.accepted ? 
+        <button onClick={acceptHandler} 
+                className="self-center w-1/3 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 font-Revalia" 
+            >
+            Aceptar
+        </button> :
+        <button onClick={e=>e.stopPropagation()} className="self-center w-1/3 text-slate-400 focus:ring-4 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 text-center bg-primary-600 font-Revalia">
+            Aceptar
+        </button> 
+        }
         <svg className="self-end me-3" fill="white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 16.67l2.829 2.83 9.175-9.339 9.167 9.339 2.829-2.83-11.996-12.17z"/></svg>
-        <button onClick={onAccept}
-        className="w-auto text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-base px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800 font-Revalia"
-        >Aceptar</button>
     </div>
 }
 
@@ -50,7 +62,7 @@ function ContratoWrapper({contract, isActive, onClick, onAccept} : { contract : 
 
 export default function Mission() {
 
-    const {getContracts, currentAgent} = useBackendAPI();
+    const {getContracts, currentAgent, acceptContract} = useBackendAPI();
     const [agentContracts, setAgentContracts] = useState([] as Contract[])
     const [activeItem, setActiveItem] = useState(-1);
 
@@ -62,14 +74,25 @@ export default function Mission() {
         }
     }
 
-    function acceptContract(contract : Contract){
+    function acceptContractHandler(contract : Contract){
+        acceptContract(contract).then(
+            (cont)=>{
+                alert(`Contrato ${cont.id} aceptado!`)
+                getAgentContracts();
+            }
+        ).catch(
+            (error)=>console.error(error)
+        );
+    }
 
+    function getAgentContracts(){
+        getContracts().then(
+            contracts => setAgentContracts(contracts)
+        ).catch(error=>console.error(error))
     }
 
     useEffect(()=>{
-        getContracts().then(
-            contracts => {setAgentContracts(contracts); console.log(contracts)}
-        ).catch(error=>console.error(error))
+        getAgentContracts();
     }, [currentAgent])
 
     return (
@@ -82,7 +105,7 @@ export default function Mission() {
                                 Contratos!
                             </h2>
                             {agentContracts.map(
-                                (agentContract, index) => <ContratoWrapper key={index} onAccept contract={agentContract} isActive={index == activeItem} onClick={()=>toggleActiveItem(index)}></ContratoWrapper>
+                                (agentContract, index) => <ContratoWrapper key={index} onAccept={()=>acceptContractHandler(agentContract)} contract={agentContract} isActive={index == activeItem} onClick={()=>toggleActiveItem(index)}></ContratoWrapper>
                             )}
                         </div>
                     </div>
