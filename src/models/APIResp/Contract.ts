@@ -1,4 +1,5 @@
 export interface Contract{
+    id: string,
     factionSymbol : string,
 	type : string,
 	terms : Terms,

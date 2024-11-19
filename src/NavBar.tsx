@@ -6,7 +6,6 @@ import shipIcon from "./assets/svg/shipIcon.svg";
 import marketIcon from "./assets/svg/marketIcon.svg";
 import missionIcon from "./assets/svg/missionIcon.svg";
 import inventoryIcon from "./assets/svg/inventoryIcon.svg";
-import { useState } from "react";
 
 export default function NavBar({activeButton} : {activeButton : string}){
     
