@@ -1,21 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
-import homeIcon from "./assets/svg/homeIcon.svg";
-import profileIcon from "./assets/svg/profileIcon.svg";
-import baseIcon from "./assets/svg/baseIcon.svg";
-import shipIcon from "./assets/svg/shipIcon.svg";
-import marketIcon from "./assets/svg/marketIcon.svg";
-import missionIcon from "./assets/svg/missionIcon.svg";
-import inventoryIcon from "./assets/svg/inventoryIcon.svg";
 import { useBackendAPI } from "./contexts/BackendAPIContext";
 import { useEffect, useState } from "react";
 import { Agent } from "./models/APIResp/Agent";
+import NavBar from "./NavBar";
 
 export default function Home() {
     const { signOut, currentUser } = useAuth();
     const navigate = useNavigate();
     const [agents, setAgents] = useState([] as Agent[])
-    const {registerAgent, currentAgent, updateCurrentAgent, getAgentsForUser} = useBackendAPI();
+    const {registerAgent, currentAgent, updateCurrentAgent, getAgentsForUser, flushCurrentAgent} = useBackendAPI();
 
     useEffect(
         ()=>{
@@ -61,6 +55,7 @@ export default function Home() {
     function cerrarSesionHandler() {
         signOut()
             .then(() => {
+                flushCurrentAgent()
                 alert("Sesión Cerrada!");
                 navigate("/");
             })
@@ -119,63 +114,7 @@ export default function Home() {
                     </div>
                 </div>
 
-                <nav className="w-5/6">
-                    <ul className="flex justify-around">
-                        <li className="text-white rounded hover:cursor-pointer bg-purple-700 p-2 outline outline-purple-700 outline-4" title="Inicio">
-                            <Link to="/home">
-                                <img src={homeIcon} alt="Icono de inicio"></img>
-                            </Link>
-                        </li>
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="perfil">
-                            <Link to="/profile">
-                                <img
-                                    src={profileIcon}
-                                    alt="Icono de perfil"
-                                ></img>
-                            </Link>
-                        </li>
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Base">
-                            <Link to="/base">
-                                <img src={baseIcon} alt="Icono de base"></img>
-                            </Link>
-                        </li>
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Nave">
-                            <Link to="/ship">
-                                <img src={shipIcon} alt="Icono de nave"></img>
-                            </Link>
-                        </li>                        
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Inventario">
-                            <Link to="/inventory">
-                                <img
-                                    src={inventoryIcon}
-                                    alt="Icono del inventario"
-                                ></img>
-                            </Link>
-                        </li>
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Misiones">
-                            <Link to="/mission">
-                                <img
-                                    src={missionIcon}
-                                    alt="Icono de misiones"
-                                ></img>
-                            </Link>
-                        </li>
-
-                        <li className="text-white rounded hover:cursor-pointer p-2 hover:outline hover:outline-purple-700 hover:outline-4" title="Mercado">
-                            <Link to="/market">
-                                <img
-                                    src={marketIcon}
-                                    alt="Icono del mercado"
-                                ></img>
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
+                <NavBar activeButton="Inicio"></NavBar>
 
                 <div className="h-screen w-screen absolute top-0 bottom-0 -z-10">
                     <img

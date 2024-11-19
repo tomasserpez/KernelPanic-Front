@@ -9,7 +9,8 @@ interface BackendAPIContextType {
     getAllAgents : ()=>Promise<Agent[]>,
     getAgentsForUser : (uid:string)=>Promise<Agent[]>,
     registerAgent : (name: string, faction: string, uid:string) => Promise<RegisterData>,
-    getContracts : () => Promise<Contract[]>
+    getContracts : () => Promise<Contract[]>,
+    flushCurrentAgent : ()=>void
 }
 const BackendAPIContext = createContext({} as BackendAPIContextType);
 
@@ -21,7 +22,7 @@ export function BackendAPIProvider({ children } : { children : any }) {
 
   const [serverPort, setServerPort] = useState("8080");
   const [serverBaseURL, setServerBaseURL] = useState("http://localhost:");
-  const [currentAgent, setCurrentAgent] = useState({} as Agent);
+  const [currentAgent, setCurrentAgent] = useState(JSON.parse(localStorage.getItem("currentAgent") || "{}") as Agent);
 
   const backendEndpoints = {
     getAllAgents: ()=>"/agents",
@@ -38,7 +39,13 @@ export function BackendAPIProvider({ children } : { children : any }) {
   }
 
   function updateCurrentAgent(newAgent : Agent){
+    localStorage.setItem("currentAgent",JSON.stringify(newAgent))
     setCurrentAgent(newAgent);
+  }
+
+  function flushCurrentAgent(){
+    localStorage.setItem("currentAgent","");
+    setCurrentAgent({} as Agent);
   }
 
   async function getAgentsForUser(uid:string | null) : Promise<Agent[]>{
@@ -67,6 +74,9 @@ export function BackendAPIProvider({ children } : { children : any }) {
   }
 
   async function getContracts() : Promise<Contract[]>{
+    if(!currentAgent.symbol){
+      return [];
+    }
     const res = await fetch(`${serverBaseURL}${serverPort}${backendEndpoints.getContracts(currentAgent.symbol)}`);
     const contracts = await res.json() as Contract[];
     return contracts;
@@ -79,7 +89,8 @@ export function BackendAPIProvider({ children } : { children : any }) {
     registerAgent,
     getContracts,
     updateCurrentAgent,
-    getAgentsForUser
+    getAgentsForUser,
+    flushCurrentAgent
   }
 
   return (
